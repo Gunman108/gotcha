@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import firebase from "../config/firebase-config"
+import firebase from "firebase"
 import LoggedIn from './loggedIn'
 import LoginButton from './loginButton'
 import '../App.css'

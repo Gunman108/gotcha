@@ -1,30 +1,25 @@
 import React, { Component } from "react"
-import firebase from "../config/firebase-config"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+import {firebase} from "../config/firebaseConfig"
 
 
-class LoginButton extends Component {
-
-    uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-      signInSuccess: () => false
-    }
+const LoginButton =()=>{
+    
+  const SignInWithFirebase = ()=>{
+    var google_provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(google_provider)
+    .then((re)=>{
+      console.log(re);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   }
 
-    render() {
+
         return(
-        <div className="container">
-        <StyledFirebaseAuth className="sign-in-button"
-          uiConfig={this.uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
-      </div>
+        <button onClick={SignInWithFirebase}>Sign In with Google</button>
         )
-    }
-}
+  }
+
 
 export default LoginButton

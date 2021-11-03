@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './components/loginButton'
+import Login from './components/googleLogin'
 
 function App() {
   return (
