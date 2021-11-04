@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import {firebase} from "../config/firebaseConfig"
+import {firebase, db} from "../config/firebaseConfig"
+
 
 
 const LoginButton =()=>{
@@ -8,7 +9,11 @@ const LoginButton =()=>{
     var google_provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithPopup(google_provider)
     .then((re)=>{
-      console.log(re);
+      return db.collection('users').doc(re.user.uid).set({
+        name: firebase.auth().currentUser.displayName,
+        email: firebase.auth().currentUser.email,
+      })
+   
     })
     .catch((err)=>{
       console.log(err);
