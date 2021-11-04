@@ -19,6 +19,12 @@ const LoginButton =()=>{
       return 4;
     }
   }
+
+  const createUid =(name)=>{
+    name = name.toLowerCase();
+    name = name.replace(/ /g,"_");
+    return name;
+  }
     
   const SignInWithFirebase = ()=>{
     var google_provider = new firebase.auth.GoogleAuthProvider()
@@ -28,7 +34,8 @@ const LoginButton =()=>{
         return db.collection('users').doc(re.user.uid).set({
           name: firebase.auth().currentUser.displayName,
           email: firebase.auth().currentUser.email,
-          class: getClass(firebase.auth().currentUser.email)
+          class: getClass(firebase.auth().currentUser.email),
+          uid: createUid(firebase.auth().currentUser.displayName)
         })
       }
       else{
