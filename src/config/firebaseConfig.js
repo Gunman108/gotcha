@@ -14,6 +14,7 @@ const firebaseConfig = {
   const firebaseApp = firebase.initializeApp(firebaseConfig);
   const auth = firebaseApp.auth();
   const db = firebaseApp.firestore();
+  const storage = firebaseApp.storage();
 
   const googleProvider = new firebase.auth.GoogleAuthProvider();
 
@@ -47,6 +48,7 @@ const logout = () => {
 export {
   auth,
   db,
+  storage,
   signInWithGoogle,
   logout,
   firebase,

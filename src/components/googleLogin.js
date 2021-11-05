@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import firebase from "firebase"
-import LoggedIn from './loggedIn'
+import LoggedIn from './LoggedIn'
 import LoginButton from './loginButton'
 import '../App.css'
 
@@ -13,7 +13,7 @@ class googleLogin extends Component {
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
-      console.log("user", user)
+      console.log("user", user);
     })
   }
 
