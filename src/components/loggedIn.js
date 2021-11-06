@@ -1,9 +1,17 @@
-import React, { Component, useState } from "react"
+import React, { Component, useState, useEffect } from "react"
 import {firebase, storage} from "../config/firebaseConfig"
 
 
 function LoggedIn() {
     const [url, setUrl] = useState('');
+
+    useEffect(()=> {
+
+        getPhoto(firebase.auth().currentUser.email);
+        console.log("happened")
+        
+        } ,[]);
+        
 
     async function getPhoto(email){
         email = email.replace('.edu','');
@@ -16,14 +24,16 @@ function LoggedIn() {
 
       }
 
+      
+     
 
 
         return(
+            
             <span>
                 
                 <div>Signed In!</div>
                 <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
-                <button onClick={() => getPhoto(firebase.auth().currentUser.email)}>Get Photo</button>
                 <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
                 <img
                     alt="profile picture"

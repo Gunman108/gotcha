@@ -23,7 +23,7 @@ class googleLogin extends Component {
       <div className="App-bg">
         {this.state.isSignedIn ? (
 
-          <LoggedIn />
+          <LoggedIn/>
 
         ) : (
 
