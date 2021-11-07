@@ -3,11 +3,12 @@ import firebase from "firebase";
 const firebaseConfig = {
   apiKey: "AIzaSyCTr4Be2XggUTfnRrBJkM7cOcFlrK1GZxk",
   authDomain: "gotcha-946a7.firebaseapp.com",
+  databaseURL: "https://gotcha-946a7-default-rtdb.firebaseio.com",
   projectId: "gotcha-946a7",
   storageBucket: "gotcha-946a7.appspot.com",
   messagingSenderId: "1084980048897",
-  appId: "1:1084980048897:web:bbb6404d16053793e1fc00",
-  measurementId: "G-Z9Z40JXQLD"
+  appId: "1:1084980048897:web:e1f356fed421b36fe1fc00",
+  measurementId: "G-FLMVDG7RS5"
 };
 
 
@@ -15,6 +16,7 @@ const firebaseConfig = {
   const auth = firebaseApp.auth();
   const db = firebaseApp.firestore();
   const storage = firebaseApp.storage();
+  const database = firebaseApp.database();
 
   const googleProvider = new firebase.auth.GoogleAuthProvider();
 
@@ -49,6 +51,7 @@ export {
   auth,
   db,
   storage,
+  database,
   signInWithGoogle,
   logout,
   firebase,
