@@ -5,9 +5,7 @@ import {firebase, db, database, storage} from "../config/firebaseConfig"
 
 const LoginButton =()=>{
 
-  const [url, setUrl] = useState('');
-  const [email,setEmail] = useState('')
-  const [name, setName] = useState('')
+
     
 
   const rootref = database.ref("Users");
@@ -48,7 +46,7 @@ async function getPhoto(email){
     console.log("photos/"+email+".png");
     var refer = await storage.ref("faces/photos/"+email+".png").getDownloadURL();
     console.log(refer);
-    setUrl(refer);
+   
     return refer;
   }
 
@@ -85,14 +83,24 @@ async function getPhoto(email){
     .then((re)=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
         console.log("User Logged");
-        db.collection('users').doc(re.user.uid).set({
-          name: firebase.auth().currentUser.displayName,
-          email: firebase.auth().currentUser.email,
-          class: getClass(firebase.auth().currentUser.email),
-          uid: createUid(firebase.auth().currentUser.displayName),
-          pair_name: pname,
-          pair_email: pemail
-        })
+        var docRef = db.collection("users").doc(re.user.uid);
+
+        docRef.get().then((doc) => {
+          if (!doc.exists) {
+            db.collection('users').doc(re.user.uid).set({
+              name: firebase.auth().currentUser.displayName,
+              email: firebase.auth().currentUser.email,
+              class: getClass(firebase.auth().currentUser.email),
+              uid: createUid(firebase.auth().currentUser.displayName),
+              pair_name: pname,
+              pair_email: pemail
+            })
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
+        
       }
       else{
       
