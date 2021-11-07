@@ -2,16 +2,17 @@ import React, { Component, useState, useEffect } from "react"
 import {firebase, storage, database} from "../config/firebaseConfig"
 
 
-function LoggedIn() {
+function LoggedIn(props) {
     const [url, setUrl] = useState('');
     const [email,setEmail] = useState('')
     const [name, setName] = useState('')
+    
 
     const rootref = database.ref("Users");
-    const rootchild = database.ref().child("Users")
 
     useEffect(()=> {
         createPair();
+        getPhoto(email);
         } ,[]);
         
     function createPair(){
@@ -28,16 +29,17 @@ function LoggedIn() {
         var strindex = index.toString()
     
         rootref.orderByKey().equalTo(strindex).on("value", function(snapshot) {
-            console.log(Object.values(snapshot.val())[0]['Names'])
-            console.log("Emails:",Object.values(snapshot.val())[0]['Names'])
+            console.log("Names:",Object.values(snapshot.val())[0]['Names'])
+            console.log("Emails:",Object.values(snapshot.val())[0]['Emails'])
             setEmail(Object.values(snapshot.val())[0]['Emails'])
             setName(Object.values(snapshot.val())[0]['Names'])
-            console.log(email)
-            getPhoto(email);
+            console.log("Current email:",email)
+            console.log("Current name:",name)
             snapshot.forEach(function(data) {
-                console.log("Data Key:" + data.key);   
+                console.log("Data Key:" + data.key);
+                getPhoto(email)   
             });
-        });
+            });
         console.log("Yes",email);
         
     }
@@ -49,8 +51,7 @@ function LoggedIn() {
         var refer = await storage.ref("faces/photos/"+email+".png").getDownloadURL();
         console.log(refer);
         setUrl(refer);
-        return refer
-
+        return refer;
       }
 
 
@@ -62,6 +63,7 @@ function LoggedIn() {
                 <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
                 <button onClick={() => createPair()}>TEST</button>
                 <h1>Welcome {name}</h1>
+                <h1>Your email is {email}</h1>
                 <img
                     alt="profile picture"
                     src={url}

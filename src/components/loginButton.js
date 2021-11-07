@@ -1,9 +1,56 @@
-import React, { Component } from "react"
-import {firebase, db} from "../config/firebaseConfig"
+import React, { Component, useState } from "react"
+import {firebase, db, database, storage} from "../config/firebaseConfig"
 
 
 
 const LoginButton =()=>{
+
+  const [url, setUrl] = useState('');
+  const [email,setEmail] = useState('')
+  const [name, setName] = useState('')
+    
+
+  const rootref = database.ref("Users");
+
+
+  const createPair = ()=>{
+        
+    console.log("Happened")
+    var bound = 0
+    rootref.orderByKey().on('value', snapshot => {
+        console.log(typeof snapshot.val().keys());
+        bound = Object.keys(snapshot.val()).length
+      })
+
+    var index = parseInt((Math.random()*bound));
+    var strindex = index.toString()
+
+    var tname = ''
+    var temail = ''
+    var tlist = []
+    rootref.orderByKey().equalTo(strindex).on("value", snapshot => {
+       
+        tname = Object.values(snapshot.val())[0]['Names']
+        temail = Object.values(snapshot.val())[0]['Emails']
+        tlist = [tname, temail]
+        
+        return tlist
+        } ); 
+
+        return tlist
+        
+}
+
+async function getPhoto(email){
+    email = email.replace('.edu','');
+    var url = "";
+    
+    console.log("photos/"+email+".png");
+    var refer = await storage.ref("faces/photos/"+email+".png").getDownloadURL();
+    console.log(refer);
+    setUrl(refer);
+    return refer;
+  }
 
   const getClass = (email)=>{
     if(email.includes("22")){
@@ -27,18 +74,28 @@ const LoginButton =()=>{
   }
     
   const SignInWithFirebase = ()=>{
+    console.log("SIGN in process begun")
     var google_provider = new firebase.auth.GoogleAuthProvider()
+    var mypair = createPair();
+    var pname = mypair[0]
+    var pemail = mypair[1]
+    console.log("The pair name and email: "+createPair())
+    
     firebase.auth().signInWithPopup(google_provider)
     .then((re)=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
-        return db.collection('users').doc(re.user.uid).set({
+        console.log("User Logged");
+        db.collection('users').doc(re.user.uid).set({
           name: firebase.auth().currentUser.displayName,
           email: firebase.auth().currentUser.email,
           class: getClass(firebase.auth().currentUser.email),
-          uid: createUid(firebase.auth().currentUser.displayName)
+          uid: createUid(firebase.auth().currentUser.displayName),
+          pair_name: pname,
+          pair_email: pemail
         })
       }
       else{
+      
         alert("Please use a valid milton.edu email")
       }
       
