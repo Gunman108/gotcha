@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './components/googleLogin'
+import Login from './components/GoogleLogin'
+import Out from './components/OutButton'
 
 function App() {
   return (
@@ -11,15 +12,9 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <Login/>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Out/>
       </header>
+      
     </div>
   );
 }

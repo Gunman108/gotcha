@@ -9,10 +9,10 @@ const LoginButton =()=>{
     var google_provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithPopup(google_provider)
     .then((re)=>{
-      return db.collection('users').doc(re.user.uid).set({
-        name: firebase.auth().currentUser.displayName,
-        email: firebase.auth().currentUser.email,
-      })
+      // return db.collection('users').doc(re.user.uid).set({
+      //   name: firebase.auth().currentUser.displayName,
+      //   email: firebase.auth().currentUser.email,
+      // })
    
     })
     .catch((err)=>{
