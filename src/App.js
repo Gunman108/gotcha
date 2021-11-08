@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './components/GoogleLogin'
 
+
 function App() {
   return (
     <div className="App">
@@ -11,14 +12,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <Login/>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        
       </header>
     </div>
   );

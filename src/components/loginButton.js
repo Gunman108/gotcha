@@ -8,35 +8,19 @@ const LoginButton =()=>{
 
     
 
-  const rootref = database.ref("Users");
+  const rootref = database.ref("pairings");
 
 
   const createPair = ()=>{
         
     console.log("Happened")
-    var bound = 0
-    rootref.orderByKey().on('value', snapshot => {
-        console.log(typeof snapshot.val().keys());
-        bound = Object.keys(snapshot.val()).length
-      })
-
-    var index = parseInt((Math.random()*bound));
-    var strindex = index.toString()
-
-    var tname = ''
-    var temail = ''
-    var tlist = []
-    rootref.orderByKey().equalTo(strindex).on("value", snapshot => {
-       
-        tname = Object.values(snapshot.val())[0]['Names']
-        temail = Object.values(snapshot.val())[0]['Emails']
-        tlist = [tname, temail]
-        
-        return tlist
-        } ); 
-
-        return tlist
-        
+    var mail = firebase.auth().currentUser.email.replace(".edu","")
+    var p = ""
+    rootref.orderByChild("Email").equalTo(mail).on('value', snapshot => {
+        console.log("Object.values:",Object.values(snapshot.val())[0]['Pairing'])
+        p = Object.values(snapshot.val())[0]['Pairing'];
+      });
+      return p;
 }
 
 async function getPhoto(email){
@@ -73,16 +57,16 @@ async function getPhoto(email){
     
   const SignInWithFirebase = ()=>{
     console.log("SIGN in process begun")
-    var google_provider = new firebase.auth.GoogleAuthProvider()
-    var mypair = createPair();
-    var pname = mypair[0]
-    var pemail = mypair[1]
-    console.log("The pair name and email: "+createPair())
+    var google_provider = new firebase.auth.GoogleAuthProvider();
+    
+
+   
     
     firebase.auth().signInWithPopup(google_provider)
     .then((re)=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
         console.log("User Logged");
+        var pairing = createPair();
         var docRef = db.collection("users").doc(re.user.uid);
 
         docRef.get().then((doc) => {
@@ -92,8 +76,8 @@ async function getPhoto(email){
               email: firebase.auth().currentUser.email,
               class: getClass(firebase.auth().currentUser.email),
               uid: createUid(firebase.auth().currentUser.displayName),
-              pair_name: pname,
-              pair_email: pemail
+              tags: 0,
+              pairing: pairing
             })
           }
       }).catch((error) => {
