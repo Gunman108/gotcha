@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react"
 import {firebase, db, database, storage} from "../config/firebaseConfig"
+import '../Login.css'
 
 
 
@@ -71,9 +72,6 @@ async function getPhoto(email){
     console.log("SIGN in process begun")
     var google_provider = new firebase.auth.GoogleAuthProvider();
     
-
-   
-    
     firebase.auth().signInWithPopup(google_provider)
     .then((re)=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
@@ -118,7 +116,7 @@ async function getPhoto(email){
 
 
         return(
-        <button onClick={SignInWithFirebase}>Sign In with Google</button>
+        <button className="login-button" onClick={SignInWithFirebase}>Sign In with Google</button>
         )
   }
 
