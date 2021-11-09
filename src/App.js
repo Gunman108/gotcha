@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Login from './components/GoogleLogin'
+import Out from './components/outButton'
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <Login/>
-        
+        <Out/>
       </header>
     </div>
   );
