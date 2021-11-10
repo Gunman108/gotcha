@@ -76,40 +76,34 @@ function findPairname(p){
         var pairing_name
         var name
         ;(async () => {
-          return await [findPair(), findPairname(findPair()), findName()]
+          return await [await findPair(), await findPairname(await findPair()), await findName()]
         })().then(value => {pairing_email = value[0];
                             pairing_name = value[1]
                             name = value[2]
                             })
-        
-        console.log("pairing_name" + pairing_name)
-        console.log("pairing_email" + pairing_email)
-        console.log("name" + name)
-        
-        var docRef = db.collection("users").doc(re.user.uid);
+                            console.log("pairing_name" + pairing_name)
+                            console.log("pairing_email" + pairing_email)
+                            console.log("name" + name)
+                            
+                            var docRef = db.collection("users").doc(re.user.uid);
+                    
+                            docRef.get().then((doc) => {
+                              if (!doc.exists) {
+                                db.collection('users').doc(firebase.auth().currentUser.uid).set({
+                                  name: name,
+                                  email: firebase.auth().currentUser.email,
+                                  class: getClass(firebase.auth().currentUser.email),
+                                  uid: createUid(firebase.auth().currentUser.displayName),
+                                  out: false,
+                                  tags: 0,
+                                  pairing: pairing_email,
+                                  pairing_name: pairing_name,
+                                })
+                              }
+                          }).catch((error) => {
+                              console.log("Error getting document:", error);
+                          });
 
-        docRef.get().then((doc) => {
-          if (!doc.exists) {
-            db.collection('users').doc(firebase.auth().currentUser.uid).set({
-              name: name,
-              email: firebase.auth().currentUser.email,
-              class: getClass(firebase.auth().currentUser.email),
-              uid: createUid(firebase.auth().currentUser.displayName),
-              out: false,
-              tags: 0,
-              pairing: pairing_email,
-              pairing_name: pairing_name,
-            })
-          }
-      }).catch((error) => {
-          console.log("Error getting document:", error);
-      });
-
-        
-        
-        
-
-        
       }
       else{
       
