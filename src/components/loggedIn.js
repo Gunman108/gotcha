@@ -32,7 +32,7 @@ function LoggedIn(props) {
             console.log("before:",myemail)
             }
             else{
-                firebase.auth().signOut()
+                firebase.auth().signOut() //Here is the logout code
             }
         })
     
