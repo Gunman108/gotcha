@@ -12,7 +12,7 @@ const LoginButton =()=>{
   const rootref = database.ref("pairings");
   const rootref2 = database.ref("names")
 
-  async function findName(){
+function findName(){
     var z
     var mail = firebase.auth().currentUser.email.replace(".edu","")
     rootref2.orderByChild("Emails").equalTo(mail).on('value', snapshot => {
@@ -22,7 +22,7 @@ const LoginButton =()=>{
     return z;
   }
 
-  async function findPair(){
+function findPair(){
     var p
     var mail = firebase.auth().currentUser.email.replace(".edu","")
     rootref.orderByChild("Email").equalTo(mail).on('value', snapshot => {
@@ -33,7 +33,7 @@ const LoginButton =()=>{
    return p;
 }
 
-async function findPairname(p){
+function findPairname(p){
   var n
   rootref2.orderByChild("Emails").equalTo(p).on('value', snapshot => {
     n = Object.values(snapshot.val())[0]['Names'];
@@ -72,14 +72,20 @@ async function findPairname(p){
     .then((re)=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
         console.log("User Logged");
+        var pairing_email
+        var pairing_name
+        var name
         ;(async () => {
-          
-          const pairing_email = await findPair();
-          const pairing_name = await findPairname(await findPair());
-          const name = await findName();
-        console.log("prelim email:",pairing_email)
-        console.log("prelim pairing:",pairing_name)
-        console.log("prelim name:",name)
+          return await [findPair(), findPairname(findPair()), findName()]
+        })().then(value => {pairing_email = value[0];
+                            pairing_name = value[1]
+                            name = value[2]
+                            })
+        
+        console.log("pairing_name" + pairing_name)
+        console.log("pairing_email" + pairing_email)
+        console.log("name" + name)
+        
         var docRef = db.collection("users").doc(re.user.uid);
 
         docRef.get().then((doc) => {
@@ -99,7 +105,7 @@ async function findPairname(p){
           console.log("Error getting document:", error);
       });
 
-        })()
+        
         
         
 

@@ -68,14 +68,14 @@ const OutButton =()=>{
           (isOut ? (
             <div>
               <OutPage />
-              <textarea placeholder="Last words?"></textarea>
+              <form id="lastwords-form" onSubmit={ onSubmit }>
+                <input placeholder="Last Words?" className="txt-Box2"  value={text} onChange={(e)=> setText(e.target.value)}/>
+                <div class="custom-pad"><input type="submit" className="conf-button" ></input></div>
+              </form>
             </div>
             
           ) : (
-            <form id="lastwords-form" onSubmit={ onSubmit }>
-            <input placeholder="Last Words?" className="txt-Box2"  value={text} onChange={(e)=> setText(e.target.value)}/>
-            <div class="custom-pad"><input type="submit" className="conf-button" ></input></div>
-            </form>
+            <button className="logout-button" onClick={imOut}>Logout</button>
           )
           )
         )

@@ -22,6 +22,9 @@ function LoggedIn(props) {
 
       async function getName(){
           var myemail = ''
+        let exists = false
+        while(!exists){
+            console.log("While")
         await db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
             if(snapshot.exists){
             console.log(snapshot.data().pairing)
@@ -30,11 +33,10 @@ function LoggedIn(props) {
             setEmail(snapshot.data().pairing)
             myemail = snapshot.data().pairing
             console.log("before:",myemail)
+            exists = snapshot.exists
             }
-            else{
-                firebase.auth().signOut() //Here is the logout code
-            }
-        })
+            })
+                    }
     
             var url = "";
             var refer = await storage.ref("faces/photos/"+myemail+".png").getDownloadURL();
