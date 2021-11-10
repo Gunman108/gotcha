@@ -6,7 +6,7 @@ import Out from './outButton'
 function LoggedIn(props) {
     const [url, setUrl] = useState('');
     const [email,setEmail] = useState('')
-    const [name, setName] = useState('')
+    const [name, setName] = useState('Loading...')
     
     
 
@@ -21,14 +21,19 @@ function LoggedIn(props) {
     
 
       async function getName(){
-          var myemail = 'gunner_peterson22@milton'
+          var myemail = ''
         await db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+            if(snapshot.exists){
             console.log(snapshot.data().pairing)
             console.log(snapshot.data().pairing_name)
             setName(snapshot.data().pairing_name)
             setEmail(snapshot.data().pairing)
             myemail = snapshot.data().pairing
             console.log("before:",myemail)
+            }
+            else{
+                firebase.auth().signOut()
+            }
         })
     
             var url = "";

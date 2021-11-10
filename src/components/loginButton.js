@@ -12,36 +12,36 @@ const LoginButton =()=>{
   const rootref = database.ref("pairings");
   const rootref2 = database.ref("names")
 
-
-  const createPair = ()=>{
-        
-    console.log("Happened")
+  async function findName(){
+    var z
     var mail = firebase.auth().currentUser.email.replace(".edu","")
-    var p
-    var n
+    rootref2.orderByChild("Emails").equalTo(mail).on('value', snapshot => {
+      z = Object.values(snapshot.val())[0]['Names'];
+      console.log("z: ",z)
+    });
+    return z;
+  }
 
+  async function findPair(){
+    var p
+    var mail = firebase.auth().currentUser.email.replace(".edu","")
     rootref.orderByChild("Email").equalTo(mail).on('value', snapshot => {
         console.log("Object.values:",Object.values(snapshot.val())[0]['Pairing'])
         p = Object.values(snapshot.val())[0]['Pairing'];
         console.log("p: ",p)
       });
-    
-    rootref2.orderByChild("Emails").equalTo(p).on('value', snapshot => {
-      n = Object.values(snapshot.val())[0]['Names'];
-    });
-    return [p,n];
+   return p;
 }
 
-async function getPhoto(email){
-    email = email.replace('.edu','');
-    var url = "";
-    
-    console.log("photos/"+email+".png");
-    var refer = await storage.ref("faces/photos/"+email+".png").getDownloadURL();
-    console.log(refer);
-   
-    return refer;
-  }
+async function findPairname(p){
+  var n
+  rootref2.orderByChild("Emails").equalTo(p).on('value', snapshot => {
+    n = Object.values(snapshot.val())[0]['Names'];
+    console.log("n:",n)
+  });
+  return n;
+}
+
 
   const getClass = (email)=>{
     if(email.includes("22")){
@@ -72,17 +72,20 @@ async function getPhoto(email){
     .then((re)=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
         console.log("User Logged");
-        var pairing = createPair();
-        var pairing_email = pairing[0];
-        var pairing_name = pairing[1];
-        console.log(pairing_email)
-        console.log(pairing_name)
+        ;(async () => {
+          
+          const pairing_email = await findPair();
+          const pairing_name = await findPairname(await findPair());
+          const name = await findName();
+        console.log("prelim email:",pairing_email)
+        console.log("prelim pairing:",pairing_name)
+        console.log("prelim name:",name)
         var docRef = db.collection("users").doc(re.user.uid);
 
         docRef.get().then((doc) => {
           if (!doc.exists) {
-            db.collection('users').doc(re.user.uid).set({
-              name: firebase.auth().currentUser.displayName,
+            db.collection('users').doc(firebase.auth().currentUser.uid).set({
+              name: name,
               email: firebase.auth().currentUser.email,
               class: getClass(firebase.auth().currentUser.email),
               uid: createUid(firebase.auth().currentUser.displayName),
@@ -95,6 +98,10 @@ async function getPhoto(email){
       }).catch((error) => {
           console.log("Error getting document:", error);
       });
+
+        })()
+        
+        
 
         
       }

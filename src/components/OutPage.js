@@ -18,6 +18,7 @@ function OutPage(props) {
             <span>
                 <h1>Sorry, {firebase.auth().currentUser.displayName}, you are out!</h1>
                 <h2>Better Luck Next Year!</h2>
+                <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
             </span>
             )
     }

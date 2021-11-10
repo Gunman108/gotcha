@@ -7,6 +7,7 @@ import OutPage from "./OutPage"
 const OutButton =()=>{
     
   const [isOut, setOut] = useState(false)
+  const [text, setText] = useState('')
 
   const imOut = ()=>{
     //go into user document and pull pairing_email(1) and email 
@@ -58,6 +59,10 @@ const OutButton =()=>{
     //Display a your out/last words document
   }
 
+  const onSubmit = () =>{
+  
+  }
+
 
         return(
           (isOut ? (
@@ -67,7 +72,10 @@ const OutButton =()=>{
             </div>
             
           ) : (
-            <button onClick={imOut}>I'm Out</button>
+            <form id="lastwords-form" onSubmit={ onSubmit }>
+            <input placeholder="Last Words?" className="txt-Box2"  value={text} onChange={(e)=> setText(e.target.value)}/>
+            <div class="custom-pad"><input type="submit" className="conf-button" ></input></div>
+            </form>
           )
           )
         )

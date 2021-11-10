@@ -20,17 +20,21 @@ function GoogleLogin(props) {
       setSignIn(!!user)
       
       console.log("user", user);
-      getName();
+      if(firebase.auth().currentUser !== null){
+        getName();
+      }
       
     
     })
     } ,[]);
 
-    async function getName(){
+    function getName(){
     if(firebase.auth().currentUser !== null){
-    await db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
-      console.log("PAIRING IS HERE:",snapshot.data().pairing)
+    db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+      if(snapshot.exists){
         setEmail(snapshot.data().pairing)
+      }
+      
     })
   }
   }
