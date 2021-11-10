@@ -1,7 +1,9 @@
 import React, { Component, useState, useEffect } from "react"
+import { Link } from "react-router-dom";
 import {firebase, storage, database,db} from "../config/firebaseConfig"
 import LoggedIn from './LoggedIn'
 import LoginButton from './loginButton'
+import OutPage from './OutPage'
 import '../App.css'
 
 
@@ -9,47 +11,45 @@ import '../App.css'
 function GoogleLogin(props) {
 
   const [isSignedIn, setSignIn] = useState(false);
-
-  const [url, setUrl] = useState('');
   const [email,setEmail] = useState('')
-  const [name, setName] = useState('')
-  
 
-  const rootref = database.ref("Users");
 
   useEffect(()=> {
+    
     firebase.auth().onAuthStateChanged(user => {
       setSignIn(!!user)
+      
       console.log("user", user);
+      getName();
+      
+    
     })
     } ,[]);
 
-  async function getPhoto(email){
-      email = email.replace('.edu','');
-      var url = "";
-      console.log("photos/"+email+".png");
-      var refer = await storage.ref("faces/photos/"+email+".png").getDownloadURL();
-      console.log(refer);
-      setUrl(refer);
-      return refer;
-    }
-
-  
-
+    async function getName(){
+    if(firebase.auth().currentUser !== null){
+    await db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+      console.log("PAIRING IS HERE:",snapshot.data().pairing)
+        setEmail(snapshot.data().pairing)
+    })
+  }
+  }
 
     return (
    
       <div className="App-bg">
-        {isSignedIn ? (
-
-          <LoggedIn />
-
-        ) : (
-
-          <LoginButton />
-
-        )}
+        <div><Link to="/leaderboard">Leaderboard</Link></div>
         
+        {isSignedIn ? (
+          [(email == '' ? (      
+              <OutPage />
+            ) : (
+              <LoggedIn />
+            )
+            )]
+        ) : (
+          <LoginButton />
+        )}
       </div>
     )
   }

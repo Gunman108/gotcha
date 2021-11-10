@@ -1,10 +1,13 @@
-import React, { Component } from "react"
+import React, { Component, useState } from "react"
 import {firebase, db} from "../config/firebaseConfig"
+import OutPage from "./OutPage"
 
 
 
 const OutButton =()=>{
     
+  const [isOut, setOut] = useState(false)
+
   const imOut = ()=>{
     //go into user document and pull pairing_email(1) and email 
     var email = ""
@@ -32,7 +35,7 @@ const OutButton =()=>{
       }
     })
     //search users for document with corrosponding email value in their pairing_email
-   
+    //Add rank to db here when tag updates
     db.collection('users').get().then((snapshot) => {
       snapshot.docs.forEach(doc => {
         console.log(doc.data().pairing)
@@ -50,14 +53,23 @@ const OutButton =()=>{
           }
       })
   })
-    //change the pairing email in that document with pairing_email(1)
-    //add 1 to tags in this document
 
+    setOut(true)
+    //Display a your out/last words document
   }
 
 
         return(
-        <button onClick={imOut}>I'm Out</button>
+          (isOut ? (
+            <div>
+              <OutPage />
+              <textarea placeholder="Last words?"></textarea>
+            </div>
+            
+          ) : (
+            <button onClick={imOut}>I'm Out</button>
+          )
+          )
         )
   }
 

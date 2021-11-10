@@ -27,12 +27,8 @@ const LoginButton =()=>{
       });
     
     rootref2.orderByChild("Emails").equalTo(p).on('value', snapshot => {
-      console.log("Object.names:",Object.values(snapshot.val())[0]['Names'])
       n = Object.values(snapshot.val())[0]['Names'];
-      console.log("n: ",n)
     });
-
-    console.log("Made it here")
     return [p,n];
 }
 
