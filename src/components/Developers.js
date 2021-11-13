@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react"
 import {firebase, storage, database, db} from "../config/firebaseConfig"
 import { Link } from "react-router-dom";
-import Out from './outButton'
+import Out from './OutButton'
 import '../stylesheets/Main.css'
 
 

@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react"
 import {firebase, storage, database, db} from "../config/firebaseConfig"
-import Out from './outButton'
+import Out from './OutButton'
 import '../stylesheets/Main.css'
 
 
@@ -55,7 +55,7 @@ function LoggedIn(props) {
                     alt="loading photo"
                     src={url}
                 />
-                <h2>Your person is {name}</h2>
+                <h2>Your target is {name}</h2>
                 <div className="Signout-Div">
                     <button className="signout-button" onClick={() => firebase.auth().signOut()}>Sign out!</button>
                 </div>

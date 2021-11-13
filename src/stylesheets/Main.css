@@ -45,6 +45,7 @@
 .developers{
     background: hsla(238, 52%, 38%, 1) 100%;
     color:white;
+    font-size: large;
 }
 .showcase-link{
     color:orange;

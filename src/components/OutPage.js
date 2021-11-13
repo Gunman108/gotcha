@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react"
 import {firebase, storage, database, db} from "../config/firebaseConfig"
-import Out from './outButton'
+import Out from './OutButton'
 
 
 function OutPage(props) {

@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import {firebase, storage, database,db} from "../config/firebaseConfig"
 import LoggedIn from './LoggedIn'
-import LoginButton from './loginButton'
+import LoginButton from './LoginButton'
 import OutPage from './OutPage'
 import '../App.css'
 import '../stylesheets/Main.css'
