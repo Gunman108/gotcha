@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from "react"
 import {firebase, storage, database, db} from "../config/firebaseConfig"
 import Out from './outButton'
+import '../stylesheets/Main.css'
 
 
 function LoggedIn(props) {
@@ -24,7 +25,7 @@ function LoggedIn(props) {
           var myemail = ''
         let exists = false
         while(!exists){
-            console.log("While")
+            // console.log("While")
         await db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
             if(snapshot.exists){
             console.log(snapshot.data().pairing)
@@ -47,15 +48,17 @@ function LoggedIn(props) {
         return(
             
             <span>
+                
                 <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
-                <h2>Your person is {name}</h2>
-
                 <img
-                    alt="profile picture"
+                    className="person-picture"
+                    alt="loading photo"
                     src={url}
                 />
-                <br/>
-                <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
+                <h2>Your person is {name}</h2>
+                <div className="Signout-Div">
+                    <button className="signout-button" onClick={() => firebase.auth().signOut()}>Sign out!</button>
+                </div>
                 <Out/>
             </span>
             )

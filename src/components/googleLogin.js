@@ -5,6 +5,7 @@ import LoggedIn from './LoggedIn'
 import LoginButton from './loginButton'
 import OutPage from './OutPage'
 import '../App.css'
+import '../stylesheets/Main.css'
 
 
 
@@ -42,7 +43,7 @@ function GoogleLogin(props) {
     return (
    
       <div className="App-bg">
-        <div><Link to="/leaderboard">Leaderboard</Link></div>
+        <div><Link className="page-link" to="/leaderboard">Leaderboard</Link></div>
         
         {isSignedIn ? (
           [(email == '' ? (      

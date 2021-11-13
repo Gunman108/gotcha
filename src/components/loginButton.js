@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react"
 import {firebase, db, database, storage} from "../config/firebaseConfig"
-import '../Login.css'
+import '../stylesheets/Login.css'
 
 
 
@@ -35,11 +35,14 @@ function findPair(){
 
 function findPairname(p){
   var n
+  console.log("p: ",p)
+  if(p != null){
   rootref2.orderByChild("Emails").equalTo(p).on('value', snapshot => {
     n = Object.values(snapshot.val())[0]['Names'];
     console.log("n:",n)
   });
   return n;
+}
 }
 
 
@@ -76,34 +79,41 @@ function findPairname(p){
         var pairing_name
         var name
         ;(async () => {
-          return await [await findPair(), await findPairname(await findPair()), await findName()]
+
+          return await [findPair(), findPairname(await findPair()), findName()]
         })().then(value => {pairing_email = value[0];
                             pairing_name = value[1]
                             name = value[2]
-                            })
-                            console.log("pairing_name" + pairing_name)
-                            console.log("pairing_email" + pairing_email)
-                            console.log("name" + name)
                             
-                            var docRef = db.collection("users").doc(re.user.uid);
-                    
-                            docRef.get().then((doc) => {
-                              if (!doc.exists) {
-                                db.collection('users').doc(firebase.auth().currentUser.uid).set({
-                                  name: name,
-                                  email: firebase.auth().currentUser.email,
-                                  class: getClass(firebase.auth().currentUser.email),
-                                  uid: createUid(firebase.auth().currentUser.displayName),
-                                  out: false,
-                                  tags: 0,
-                                  pairing: pairing_email,
-                                  pairing_name: pairing_name,
-                                })
-                              }
-                          }).catch((error) => {
-                              console.log("Error getting document:", error);
-                          });
+        
+        console.log("pairing_name" + pairing_name)
+        console.log("pairing_email" + pairing_email)
+        console.log("name" + name)
+        
+        var docRef = db.collection("users").doc(re.user.uid);
 
+        docRef.get().then((doc) => {
+          if (!doc.exists) {
+            db.collection('users').doc(firebase.auth().currentUser.uid).set({
+              name: name,
+              email: firebase.auth().currentUser.email,
+              class: getClass(firebase.auth().currentUser.email),
+              uid: createUid(firebase.auth().currentUser.displayName),
+              out: false,
+              tags: 0,
+              pairing: pairing_email,
+              pairing_name: pairing_name,
+            })
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
+        
+        
+    })
+
+        
       }
       else{
       
@@ -119,7 +129,13 @@ function findPairname(p){
 
 
         return(
-        <button className="login-button" onClick={SignInWithFirebase}>Sign In with Google</button>
+        <body>
+          <div className="login-button-div">
+        <button type="button" className="login-button" onClick={SignInWithFirebase}>
+          <span class="button-text">Enter the Gotcha Zone!</span>
+        </button>
+        </div>
+        </body>
         )
   }
 

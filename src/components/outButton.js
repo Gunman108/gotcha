@@ -1,6 +1,8 @@
 import React, { Component, useState } from "react"
 import {firebase, db} from "../config/firebaseConfig"
 import OutPage from "./OutPage"
+import '../stylesheets/Main.css'
+
 
 
 
@@ -8,9 +10,12 @@ const OutButton =()=>{
     
   const [isOut, setOut] = useState(false)
   const [text, setText] = useState('')
-
+  const [name, setName] = useState('')
+  const [clas, setClass] = useState(0)
+  
   const imOut = ()=>{
     //go into user document and pull pairing_email(1) and email 
+    if(window.confirm("Are you sure you are out?")){
     var email = ""
     var pairing = ""
     var pairing_name = ""
@@ -21,6 +26,9 @@ const OutButton =()=>{
         pairing = doc.data().pairing
         pairing_name = doc.data().pairing
        
+        setName(doc.data().name)
+        setClass(doc.data().class)
+
 
         db.collection('users').doc(doc.id).set({
           name: doc.data().name,
@@ -56,11 +64,26 @@ const OutButton =()=>{
   })
 
     setOut(true)
+}
+else{
+  return
+}
     //Display a your out/last words document
   }
 
   const onSubmit = () =>{
-  
+    let currentDate = new Date();
+    let time = (currentDate.getHours()*3600) + (currentDate.getMinutes()*60) + currentDate.getSeconds();
+    let cDay = currentDate.getDate()
+    console.log(time);
+    console.log(cDay)
+    db.collection('lastwords').doc(firebase.auth().currentUser.uid).set({
+      name: name,
+      class: clas,
+      words: text,
+      date: cDay,
+      time: time
+    })
   }
 
 
@@ -69,13 +92,16 @@ const OutButton =()=>{
             <div>
               <OutPage />
               <form id="lastwords-form" onSubmit={ onSubmit }>
-                <input placeholder="Last Words?" className="txt-Box2"  value={text} onChange={(e)=> setText(e.target.value)}/>
+                <input className="txt-box" placeholder="Last Words?" value={text} onChange={(e)=> setText(e.target.value)}/>
                 <div class="custom-pad"><input type="submit" className="conf-button" ></input></div>
               </form>
             </div>
             
           ) : (
-            <button className="logout-button" onClick={imOut}>Logout</button>
+            <div className = "logout-div">
+              <button className="out-button" onClick={imOut}>I'm Out :(</button>
+            </div>
+            
           )
           )
         )

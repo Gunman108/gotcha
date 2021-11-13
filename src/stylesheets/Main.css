@@ -1,0 +1,120 @@
+.person-picture{
+    border-radius: 75px;
+    width: 150px;
+}
+
+.signout-button{
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.logout-div{
+    padding: 15px;
+}
+.out-button{
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 10px;
+    
+}
+
+.page-link{
+    text-decoration: none;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 30px;
+}
+
+.txt-box{
+    background-color: lightgrey;
+    width: 500px;
+    height: 25px;
+    font-size: large;
+}
+
+.conf-button{
+    width: 150px;
+    height: 30px;
+    font-size: 20px;
+}
+
+.developers{
+    background: hsla(238, 52%, 38%, 1) 100%;
+    color:white;
+}
+.showcase-link{
+    color:orange;
+    text-decoration: none;
+    cursor: pointer;
+}
+.showcase-link:hover{
+    color: blue;
+}
+
+.table-div{
+    display: inline-block;
+
+}
+
+.leaderboard-tablewrap{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+.leaderboard-tablewrap thead tr{
+    background-color:orange;
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.leaderboard-tablewrap th,
+.leaderboard-tablewrap td{
+    padding: 12px 15px;
+}
+
+.leaderboard-tablewrap tbody tr{
+    border-bottom: 1px solid #dddddd;
+}
+
+.leaderboard-tablewrap tbody tr:last-of-type{
+    border-bottom: 2px solid orange;
+}
+.leaderboard-tablewrap tbody tr:first-child{
+    color:gold;
+}
+.leaderboard-tablewrap tbody tr:nth-child(2){
+    color:silver;
+}
+.leaderboard-tablewrap tbody tr:nth-child(3){
+    color:	#CD7F32;
+}
+
+.lastword-wrapper{
+    padding: 15px;
+}
+
+.lastword-div{
+    background-color: #dddddd;
+    color: black;
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.lw-text{
+    color:#191919
+}
+
+.quote-text{
+    color: #4C4C4C;
+}

@@ -1,0 +1,10 @@
+.login-button{
+    cursor: pointer;
+    font-size: 2rem;
+    border-radius: 0.25em;
+    border:none;
+    padding: 0.25em 1em;
+}
+.login-button-div{
+    padding:50px;
+}
