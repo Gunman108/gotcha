@@ -48,28 +48,29 @@ async function findPairname(p){
 }
 }
 
-function getPairingData(userEmail) 
+async function getPairingData(userEmail) 
 {
-  userEmail = userEmail.toString()
-  userEmail = userEmail.replace(".edu","")
+  userEmail = userEmail.toString().replace(".edu","")
   let pairEmail;
   let pairName;
   let myName;
-  rootref.orderByChild("Email").equalTo(userEmail).on('value', snapshotEmail => 
+
+  await Promise.resolve(rootref.orderByChild("Email").equalTo(userEmail).once('value').then(async snapshotEmail => 
   {
-    pairEmail = Object.values(snapshotEmail.val())[0]['Pairing'].toString().replace(".edu", "")
+    pairEmail = Object.values(snapshotEmail.val())[0]['Pairing'].toString().replace(".edu", "");
     console.log("pair email: " + pairEmail);
-    rootref2.orderByChild("Emails").equalTo(pairEmail).on('value', snapshotName => 
+    await Promise.resolve(rootref2.orderByChild("Emails").equalTo(pairEmail).once('value').then(snapshotName => 
     {
       pairName = Object.values(snapshotName.val())[0]['Names'].toString();
       console.log("pair name: " + pairName);
-    });
-    rootref2.orderByChild("Emails").equalTo(userEmail).on('value', snapshotMyName => 
+    }));
+    await Promise.resolve(rootref2.orderByChild("Emails").equalTo(userEmail).once('value').then(snapshotMyName => 
     {
       myName = Object.values(snapshotMyName.val())[0]['Names'].toString();
       console.log("my name: " + myName);
-    });
-  });
+    }));
+    
+  }));
   return [pairEmail, pairName, myName];
 }
 
@@ -101,20 +102,20 @@ function getPairingData(userEmail)
     
     firebase.auth().signInWithPopup(google_provider)
     
-    .then(()=>{
+    .then(async ()=>{
       if(firebase.auth().currentUser.email.includes("milton.edu")){
         
         console.log("User Logged");
-        var pairing_email
-        var pairing_name
-        var name
+        var pairing_email;
+        var pairing_name;
+        var name;
         var myemail = firebase.auth().currentUser.email;
 
-        var myData = getPairingData(myemail)
+        var myData = await getPairingData(myemail);
 
-        pairing_email = myData[0]
-        pairing_name = myData[1]
-        name = myData[2]
+        pairing_email = myData[0];
+        pairing_name = myData[1];
+        name = myData[2];
 
         console.log(myData[0],", ",myData[1],", ",myData[2])
 
