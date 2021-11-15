@@ -85,13 +85,14 @@ async function findPairname(p){
         var name
         var myemail = firebase.auth().currentUser.email;
         (async () => {
-          console.log(firebase.auth().currentUser.email);
+            console.log(firebase.auth().currentUser.email);
+  
+            await findPair(myemail).then(value => pairing_email = value)
+            await findPairname(pairing_email).then(value => pairing_name = value)
+            await findName(myemail).then(value => name = value)
+          
+        })();
 
-          await findPair(myemail).then(value => pairing_email = value)
-          await findPairname(pairing_email).then(value => pairing_name = value)
-          await findName(myemail).then(value => name = value)
-        })()
-                            
         console.log("before DB name:",name)
         console.log("before DB pairing_name:",pairing_name)
         console.log("before DB pairing_email:",pairing_email)
@@ -101,7 +102,8 @@ async function findPairname(p){
             console.log("DB name:",name)
             console.log("DB pairing_name:",pairing_name)
             console.log("DB pairing_email:",pairing_email)
-            
+
+            setTimeout(
             db.collection("users").doc(firebase.auth().currentUser.uid).set({
               name: name,
               email: firebase.auth().currentUser.email,
@@ -111,11 +113,13 @@ async function findPairname(p){
               tags: 0,
               pairing: pairing_email,
               pairing_name: pairing_name,
-            })
+            }), 5000)
           }
       }).catch((error) => {
           console.log("Error getting document:", error);
       });
+            
+ 
 
 
 
