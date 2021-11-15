@@ -10,12 +10,12 @@ import logo from "./resources/logo.png"
 
 
 
+
 class App extends Component{
   
 render(){
   return (
     <div className="App">
-      
       
         <BrowserRouter>
         <div className="header-div">

@@ -51,6 +51,10 @@ function Showcase() {
                     <p>Valerie Gu (Class IV)</p>
                 </div>
                 <div>
+                    <img src={gunner} className="App-logo" alt="logo" />
+                    <p>Gunner (Obviously the best one amirite?)</p>
+                </div>
+                <div>
                 <Link className="page-link" to="/">Back Home</Link>
                 <br/><br/>
                 </div>

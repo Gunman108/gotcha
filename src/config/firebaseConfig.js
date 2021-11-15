@@ -29,6 +29,7 @@ const signInWithGoogle = async () => {
       .collection("users")
       .where("uid", "==", user.uid)
       .get();
+      
     if (query.docs.length === 0) {
       await db.collection("users").add({
         uid: user.uid,
